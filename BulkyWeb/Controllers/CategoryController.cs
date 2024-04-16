@@ -6,8 +6,8 @@ namespace BulkyWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db; 
-        public CategoryController(ApplicationDbContext db) 
+        private readonly ApplicationDbContext _db;
+        public CategoryController(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -26,9 +26,14 @@ namespace BulkyWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            _db.Categories.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+                return View();
         }
     }
 }
