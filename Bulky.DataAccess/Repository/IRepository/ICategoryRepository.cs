@@ -9,7 +9,7 @@ namespace Bulky.DataAccess.Repository.IRepository
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        void Updated(Category obj);
+        void Update(Category obj);
         void Save();
     }
 }
