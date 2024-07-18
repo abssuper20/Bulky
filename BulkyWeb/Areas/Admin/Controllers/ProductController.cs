@@ -28,7 +28,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     Text = u.Name,
                     Value = u.Id.ToString()
                 });
-            ViewBag.categoryList = CategoryList;
+            //ViewBag.categoryList = CategoryList;
+            ViewData["CategoryList"] = CategoryList;
+
             return View();
         }
 
