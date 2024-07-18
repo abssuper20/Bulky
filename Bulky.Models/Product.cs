@@ -6,7 +6,7 @@ namespace Bulky.Models
     public class Product
     {
         public int Id { get; set; }
-        [DisplayName("Category Name"), MaxLength(30)]
+        [DisplayName("Product Name"), MaxLength(30)]
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
