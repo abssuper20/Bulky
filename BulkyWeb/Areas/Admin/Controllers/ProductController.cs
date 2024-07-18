@@ -17,17 +17,18 @@ namespace BulkyWeb.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var objCategoryList = _unitOfWork.product.GetAll();
+            return View(objCategoryList);
+        }
+
+        public IActionResult Create()
+        {
             IEnumerable<SelectListItem> CategoryList = _unitOfWork.category.GetAll()
                 .Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
                 });
-            return View(objCategoryList);
-        }
-
-        public IActionResult Create()
-        {
+            ViewBag.categoryList = CategoryList;
             return View();
         }
 
