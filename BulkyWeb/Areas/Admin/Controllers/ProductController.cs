@@ -18,10 +18,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-
         public IActionResult Index()
         {
-            var objCategoryList = _unitOfWork.product.GetAll();
+            var objCategoryList = _unitOfWork.product.GetAll(includeProperties: "Category");
             return View(objCategoryList);
         }
 
@@ -45,7 +44,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             //update
             else
             {
-                productVM.Product = _unitOfWork.product.Get(u => u.Id == id);
+                productVM.Product = _unitOfWork.product.Get(u => u.Id == id, null);
                 return View(productVM);
             }
         }
@@ -104,7 +103,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             if (id == null || id == 0)
                 return NotFound();
 
-            Product objCategory = _unitOfWork.product.Get(u => u.Id == id);
+            Product objCategory = _unitOfWork.product.Get(u => u.Id == id, null);
             if (objCategory == null)
                 return NotFound();
 
@@ -114,7 +113,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Product? obj = _unitOfWork.product.Get(u => u.Id == id);
+            Product? obj = _unitOfWork.product.Get(u => u.Id == id, null);
             if (obj == null)
                 return NotFound();
 
@@ -122,6 +121,13 @@ namespace BulkyWeb.Areas.Admin.Controllers
             _unitOfWork.Save();
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var objCategoryList = _unitOfWork.product.GetAll(includeProperties: "Category");
+            return Json(new { data = objCategoryList });
         }
     }
 }

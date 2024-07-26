@@ -48,7 +48,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             if (id == null || id == 0)
                 return NotFound();
 
-            Category objCategory = _unitOfWork.category.Get(u => u.Id == id);
+            Category objCategory = _unitOfWork.category.Get(u => u.Id == id, null);
             if (objCategory == null)
                 return NotFound();
 
@@ -74,7 +74,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             if (id == null || id == 0)
                 return NotFound();
 
-            Category objCategory = _unitOfWork.category.Get(u => u.Id == id);
+            Category objCategory = _unitOfWork.category.Get(u => u.Id == id, null);
             if (objCategory == null)
                 return NotFound();
 
@@ -84,7 +84,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            Category? obj = _unitOfWork.category.Get(u => u.Id == id);
+            Category? obj = _unitOfWork.category.Get(u => u.Id == id, null);
             if (obj == null)
                 return NotFound();
 
