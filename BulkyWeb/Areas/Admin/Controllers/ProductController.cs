@@ -130,6 +130,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return Json(new { data = objCategoryList });
         }
 
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
             var productToDelete = _unitOfWork.product.Get(u => u.Id == id, null);
