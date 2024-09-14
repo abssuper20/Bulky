@@ -4,6 +4,7 @@ using Bulky.DataAcess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAcess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240914114101_AddCompanyTable")]
+    partial class AddCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,11 +74,11 @@ namespace Bulky.DataAcess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("city")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("name")
-                        .IsRequired()
+                    b.Property<string>("city")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("phoneNumber")
@@ -93,35 +96,6 @@ namespace Bulky.DataAcess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            city = "pune",
-                            name = "JustBooks",
-                            phoneNumber = "1234567890",
-                            state = "MH",
-                            streetAddress = "Paud Road, Pune"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            city = "pune",
-                            name = "Wild Reader",
-                            phoneNumber = "9876543210",
-                            state = "GJ",
-                            streetAddress = "SB Road, Pune"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            city = "pune",
-                            name = "Reader's Club",
-                            phoneNumber = "12234675768",
-                            state = "MP",
-                            streetAddress = "JM, Pune"
-                        });
                 });
 
             modelBuilder.Entity("Bulky.Models.Product", b =>
