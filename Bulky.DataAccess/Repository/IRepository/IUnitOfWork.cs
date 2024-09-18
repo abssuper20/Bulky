@@ -5,6 +5,7 @@
         ICategoryRepository category { get; }
         IProductRepository product { get; }
         ICompanyRepository company { get; }
+        IShoppingCartRepository shoppingCart { get; }
         void Save();
     }
 }
