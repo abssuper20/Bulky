@@ -1,4 +1,4 @@
-﻿                                 using Bulky.DataAccess.Repository.IRepository;
+﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAcess.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -20,9 +20,19 @@ namespace Bulky.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query;
+
+            if (tracked)
+            {
+                query = dbSet;
+            }
+            else
+            {
+                query= dbSet.AsNoTracking();
+            }
+
             query = query.Where(filter);
             if (!string.IsNullOrEmpty(includeProperties))
             {
@@ -39,7 +49,7 @@ namespace Bulky.DataAccess.Repository
             IQueryable<T> query = dbSet;
             if (!string.IsNullOrEmpty(includeProperties))
             {
-                foreach (var property in includeProperties.Split(',',StringSplitOptions.RemoveEmptyEntries))
+                foreach (var property in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(property);
                 }
