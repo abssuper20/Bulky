@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bulky.Models
 {
-    public class OrderDetails
+    public class OrderDetail
     {
         public int Id { get; set; }
         [Required]
