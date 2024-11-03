@@ -1,4 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
+using Bulky.Models;
+using Bulky.Utilites;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulkyWeb.Areas.Admin.Controllers
@@ -19,9 +21,28 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string status)
         {
-            var objOrderHeaders = _unitOfWork.orderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
+            IEnumerable<OrderHeader> objOrderHeaders = _unitOfWork.orderHeader.GetAll(includeProperties: "ApplicationUser");
+
+            switch (status)
+            {
+                case "pending":
+                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                    break;
+                case "inprocess":
+                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == SD.StatusInProcess);
+                    break;
+                case "completed":
+                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == SD.StatusShipped);
+                    break;
+                case "approved":
+                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == SD.StatusApproved);
+                    break;
+                default:
+                    break;
+
+            }
             return Json(new { data = objOrderHeaders });
         }
     }
