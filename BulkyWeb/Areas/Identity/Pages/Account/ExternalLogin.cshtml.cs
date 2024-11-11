@@ -166,12 +166,12 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                user.streetAddress = Input.StreetAddress;
+                user.StreetAddress = Input.StreetAddress;
                 user.Name = Input.Name;
-                user.state = Input.State;
-                user.postalCode = Input.PostalCode;
+                user.State = Input.State;
+                user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
-                user.city = Input.City;
+                user.City = Input.City;
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

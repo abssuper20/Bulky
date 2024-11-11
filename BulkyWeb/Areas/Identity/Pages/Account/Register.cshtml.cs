@@ -121,13 +121,6 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
-            }
             Input = new()
             {
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
@@ -156,12 +149,12 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                user.streetAddress = Input.streetAddress;
+                user.StreetAddress = Input.streetAddress;
                 user.Name = Input.name;
-                user.state = Input.state;
-                user.postalCode = Input.postalCode;
+                user.State = Input.state;
+                user.PostalCode = Input.postalCode;
                 user.PhoneNumber = Input.phoneNumber;
-                user.city = Input.city;
+                user.City = Input.city;
 
                 if (Input.Role == SD.Role_Company)
                 {

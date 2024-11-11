@@ -9,10 +9,10 @@ namespace Bulky.Models
     {
         [Required]
         public string Name { get; set; }
-        public string? streetAddress { get; set; }
-        public string? city { get; set; }
-        public string? state { get; set; }
-        public string? postalCode { get; set; }
+        public string? StreetAddress { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PostalCode { get; set; }
         public int? CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         [ValidateNever]
