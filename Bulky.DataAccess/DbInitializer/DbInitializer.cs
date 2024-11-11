@@ -56,6 +56,9 @@ namespace Bulky.DataAccess.DbInitializer
                     PostalCode = "411041",
                     City = "Pune"
                 }, "Admin@123").GetAwaiter().GetResult();
+
+                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
+                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
 
             return;
