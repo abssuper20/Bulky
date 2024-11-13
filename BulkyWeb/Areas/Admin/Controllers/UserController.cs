@@ -1,8 +1,10 @@
 ﻿using Bulky.DataAcess.Data;
 using Bulky.Models;
 using Bulky.Utilites;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.Areas.Admin.Controllers
@@ -65,5 +67,68 @@ namespace BulkyWeb.Areas.Admin.Controllers
             _db.SaveChanges();
             return Json(new { success = true, message = "Operation Successful" });
         }
+
+        public IActionResult RoleManagment(string userId)
+        {
+            string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == userId).RoleId;
+            RoleManagmentVM roleVM = new RoleManagmentVM()
+            {
+                ApplicationUser = _db.ApplicationUsers.Include(u => u.company).FirstOrDefault(u => u.Id == userId),
+                RoleList = _db.Roles.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                CompanyList = _db.Companies.Select(i => new SelectListItem
+                {
+                    Text = i.name,
+                    Value = i.Id.ToString()
+                }),
+            };
+
+            roleVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
+            return View(roleVM);
+        }
+
+        //[HttpPost]
+        //public IActionResult RoleManagment(RoleManagmentVM roleManagmentVM)
+        //{
+
+        //    string oldRole = _userManager.GetRolesAsync(_unitOfWork.ApplicationUser.Get(u => u.Id == roleManagmentVM.ApplicationUser.Id))
+        //            .GetAwaiter().GetResult().FirstOrDefault();
+
+        //    ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == roleManagmentVM.ApplicationUser.Id);
+
+
+        //    if (!(roleManagmentVM.ApplicationUser.Role == oldRole))
+        //    {
+        //        //a role was updated
+        //        if (roleManagmentVM.ApplicationUser.Role == SD.Role_Company)
+        //        {
+        //            applicationUser.CompanyId = roleManagmentVM.ApplicationUser.CompanyId;
+        //        }
+        //        if (oldRole == SD.Role_Company)
+        //        {
+        //            applicationUser.CompanyId = null;
+        //        }
+        //        _unitOfWork.ApplicationUser.Update(applicationUser);
+        //        _unitOfWork.Save();
+
+        //        _userManager.RemoveFromRoleAsync(applicationUser, oldRole).GetAwaiter().GetResult();
+        //        _userManager.AddToRoleAsync(applicationUser, roleManagmentVM.ApplicationUser.Role).GetAwaiter().GetResult();
+
+        //    }
+        //    else
+        //    {
+        //        if (oldRole == SD.Role_Company && applicationUser.CompanyId != roleManagmentVM.ApplicationUser.CompanyId)
+        //        {
+        //            applicationUser.CompanyId = roleManagmentVM.ApplicationUser.CompanyId;
+        //            _unitOfWork.ApplicationUser.Update(applicationUser);
+        //            _unitOfWork.Save();
+        //        }
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
     }
 }
