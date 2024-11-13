@@ -43,15 +43,12 @@ function loadDataTable() {
                         </div>
                     `
                     }
-
-
                 },
                 "width": "25%"
             }
         ]
     });
 }
-
 
 function LockUnlock(id) {
     $.ajax({
