@@ -1,5 +1,7 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAcess.Data;
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
 
 namespace Bulky.DataAccess.Repository
 {
@@ -13,6 +15,7 @@ namespace Bulky.DataAccess.Repository
         public IApplicationUserRepository applicationUser { get; private set; }
         public IOrderDetailRepository orderDetail { get; private set; }
         public IOrderHeaderRepository orderHeader { get; private set; }
+        public IProductImageRepository productImage { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -23,6 +26,7 @@ namespace Bulky.DataAccess.Repository
             applicationUser = new ApplicationUserRepository(db);
             orderHeader = new OrderHeaderRepository(db);
             orderDetail = new OrderDetailRepository(db);
+            productImage = new ProductImageRepository(_db);
         }
 
         public void Save()

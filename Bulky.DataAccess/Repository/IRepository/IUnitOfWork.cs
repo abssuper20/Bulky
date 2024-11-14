@@ -1,4 +1,6 @@
-﻿namespace Bulky.DataAccess.Repository.IRepository
+﻿using BulkyBook.DataAccess.Repository.IRepository;
+
+namespace Bulky.DataAccess.Repository.IRepository
 {
 	public interface IUnitOfWork
 	{
@@ -9,6 +11,7 @@
 		IApplicationUserRepository applicationUser { get; }
 		IOrderHeaderRepository orderHeader { get; }
 		IOrderDetailRepository orderDetail { get; }
-		void Save();
+        IProductImageRepository productImage { get; }
+        void Save();
 	}
 }
