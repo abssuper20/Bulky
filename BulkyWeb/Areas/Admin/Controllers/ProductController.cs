@@ -149,18 +149,30 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            var productToDelete = _unitOfWork.product.Get(u => u.Id == id, null);
-            if (productToDelete == null)
+            var productToBeDeleted = _unitOfWork.product.Get(u => u.Id == id);
+            if (productToBeDeleted == null)
+            {
                 return Json(new { success = false, message = "Error while deleting" });
+            }
 
-            //var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, productToDelete.ImageUrl.TrimStart('\\'));
-            //if (System.IO.File.Exists(oldImagePath))
-            //{
-            //    System.IO.File.Delete(oldImagePath);
-            //}
-            _unitOfWork.product.Remove(productToDelete);
+            string productPath = @"images\products\product-" + id;
+            string finalPath = Path.Combine(_webHostEnvironment.WebRootPath, productPath);
+
+            if (Directory.Exists(finalPath))
+            {
+                string[] filePaths = Directory.GetFiles(finalPath);
+                foreach (string filePath in filePaths)
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+                Directory.Delete(finalPath);
+            }
+
+            _unitOfWork.product.Remove(productToBeDeleted);
             _unitOfWork.Save();
-            return Json(new { success = true, message = "Product deleted successfully" });
+
+            return Json(new { success = true, message = "Delete Successful" });
         }
 
         public IActionResult DeleteImage(int imageId)
