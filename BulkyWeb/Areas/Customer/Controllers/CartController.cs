@@ -2,6 +2,7 @@
 using Bulky.Models;
 using Bulky.Models.ViewModels;
 using Bulky.Utilites;
+using BulkyBook.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
@@ -33,8 +34,11 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 OrderHeader = new()
             };
 
+            IEnumerable<ProductImage> productImages = _unitOfWork.productImage.GetAll();
+
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
+                cart.Product.ProductImages = productImages.Where(u => u.ProductId == cart.Product.Id).ToList();
                 cart.Price = GetPriceBasedOnQuantity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += cart.Price * cart.Count;
             }
